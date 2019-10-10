@@ -5,7 +5,7 @@ import string
 
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
-HAND_SIZE = 7
+HAND_SIZE = 6
 
 SCRABBLE_LETTER_VALUES = {
     'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
@@ -170,14 +170,19 @@ def isValidWord(word, hand, wordList):
     wordList: list of lowercase strings
     """
     found = False
+    lol = {}
+    for letter in hand:
+        lol[letter] = hand[letter]
     for taggedword in wordList:
         if word == taggedword:
             found = True
             for letter in word:
                 try:
-                    if hand[letter] < 1:
+                    if lol[letter] < 1:
                         found = False
                         break
+                    else:
+                        lol[letter] = lol[letter] - 1
                 except KeyError:
                     found = False
                     break
@@ -306,8 +311,9 @@ def playGame(wordList, saved_hand):
     print('Enter n to deal a new hand, r to replay the last hand, or e to end game:',end=" ")
     key = input()
     if key == 'n':
-        HAND = dealHand(HAND_SIZE)
+        # HAND = dealHand(HAND_SIZE)
         # HAND = {'a': 1, 'r': 1, 'e': 1, 't': 1, 'i': 2, 'n': 1}
+        HAND = {'a': 2, 'n': 2, 't': 2 }
         playHand(HAND, wordList, HAND_SIZE)
     elif key == 'r':
         playHand(saved_hand, wordList, HAND_SIZE)

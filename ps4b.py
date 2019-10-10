@@ -36,6 +36,7 @@ def compChooseWord(hand, wordList, n):
             # If the score for that word is higher than your best score
             if (score > bestScore):
                 # update your best score, and best word accordingly
+                print(word)
                 bestScore = score
                 bestWord = word
     # return the best word you found.
@@ -71,6 +72,7 @@ def compPlayHand(hand, wordList, n):
         print("Current Hand: ", end=' ')
         displayHand(hand)
         # computer's word
+        print('Compiling...')
         word = compChooseWord(hand, wordList, n)
         # If the input is a single period:
         if word == None:
@@ -100,7 +102,7 @@ def compPlayHand(hand, wordList, n):
 # Problem #6: Playing a game
 #
 #
-def playGame(wordList):
+def playGame(wordList, saved_hand):
     """
     Allow the user to play an arbitrary number of hands.
  
@@ -124,8 +126,35 @@ def playGame(wordList):
 
     wordList: list (string)
     """
-    # TO DO... <-- Remove this comment when you code this function
-    print("playGame not yet implemented.") # <-- Remove this when you code this function
+    print('Enter n to deal a new hand, r to replay the last hand, or e to end game:', end=" ")
+    key = input()
+    if key == 'n':
+        # HAND = dealHand(HAND_SIZE)
+        HAND = {'a': 1, 'n': 1, 't': 1,}
+        print('Enter u to play as user, c to let the computer play:', end=" ")
+        person = input()
+        if person == 'u':
+            playHand(HAND, wordList, HAND_SIZE)
+        elif person == 'c':
+            compPlayHand(HAND, wordList, HAND_SIZE)
+        else:
+            print('The following option is not available.')
+            playGame(wordList, saved_hand)
+    elif key == 'r':
+        print('Enter u to play as user, c to let the computer play:', end=" ")
+        person = input()
+        if person == 'u':
+            playHand(HAND, wordList, HAND_SIZE)
+        elif person == 'c':
+            compPlayHand(HAND, wordList, HAND_SIZE)
+        else:
+            print('The following option is not available.')
+            playGame(wordList, saved_hand)
+    elif key == 'e':
+        return
+    else:
+        print('The following option is not available.')
+        playGame(wordList, saved_hand)
 
         
 #
@@ -133,6 +162,6 @@ def playGame(wordList):
 #
 if __name__ == '__main__':
     wordList = loadWords()
-    playGame(wordList)
+    playGame(wordList, {})
 
 
